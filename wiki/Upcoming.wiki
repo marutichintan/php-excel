@@ -1,0 +1,6 @@
+#summary Plans about what I am going to do with my project.
+
+= Todolist =
+
+  * Add support for different variable types
+  * Add support for headlines (1st row)
