@@ -61,17 +61,6 @@ class Excel_XML
     private $lines = array ();
 
     /**
-     * The excel document itself
-     * 
-     * Will be delivered out to the browser using the header()
-     * function.
-     * 
-     * @access private
-     * @var string
-     */
-    private $document;
-
-    /**
      * Worksheet title
      *
      * Contains the title of a single worksheet
@@ -102,7 +91,7 @@ class Excel_XML
         endforeach;
 
         // transform $cells content into one row
-        $this->lines[] = "            <Row>\n" . $cells . "            </Row>\n";
+        $this->lines[] = "<Row>\n" . $cells . "            </Row>\n";
 
     }
 
