@@ -7,7 +7,7 @@
  * 
  * @package Utilities
  * @author Oliver Schwarz <oliver.schwarz@gmail.com>
- * @version 0.1
+ * @version 0.2
  */
 
 /**
@@ -72,6 +72,16 @@ class Excel_XML
     private $document;
 
     /**
+     * Worksheet title
+     *
+     * Contains the title of a single worksheet
+     *
+     * @access private 
+     * @var string
+     */
+    private $worksheet_title = "Table1";
+
+    /**
      * Add a single row to the $document string
      * 
      * @access private
@@ -117,6 +127,29 @@ class Excel_XML
     }
 
     /**
+     * Set the worksheet title
+     * 
+     * Checks the string for not allowed characters (:\/?*),
+     * cuts it to maximum 31 characters and set the title.
+     *
+     * @access public
+     * @param string $title Designed title
+     */
+    public function setWorksheetTitle ($title)
+    {
+
+        // strip out special chars first
+        $title = preg_replace ("/[\\\|:|\/|\?|\*]/", "", $title);
+
+        // now cut it to the allowed length
+        $title = substr ($title, 0, 31);
+
+        // set title
+        $this->worksheet_title = $title;
+
+    }
+
+    /**
      * Generate the excel file
      * 
      * Finally generates the excel file and uses the header() function
@@ -135,7 +168,7 @@ class Excel_XML
         // print out document to the browser
         // need to use stripslashes for the damn ">"
         echo stripslashes ($this->header);
-        echo "\n    <Worksheet ss:Name=\"Table1\">\n        <Table>\n";
+        echo "\n    <Worksheet ss:Name=\"" . $this->worksheet_title . "\">\n        <Table>\n";
         echo "            <Column ss:Index=\"1\" ss:AutoFitWidth=\"0\" ss:Width=\"110\"/>\n";
         echo implode ("\n", $this->lines);
         echo "        </Table>\n    </Worksheet>\n";
