@@ -21,8 +21,7 @@
  * @author Oliver Schwarz <oliver.schwarz@vaicon.de>
  * @version 0.1
  *
- * @todo Make title and worksheet name editable
- * @todo Add error handling (array corruption etc.)
+  * @todo Add error handling (array corruption etc.)
  * @todo Write a wrapper method to do everything on-the-fly
  */
 class Excel_XML
@@ -91,7 +90,7 @@ class Excel_XML
         endforeach;
 
         // transform $cells content into one row
-        $this->lines[] = "<Row>\n" . $cells . "            </Row>\n";
+        $this->lines[] = "<Row>\n" . $cells . "</Row>\n";
 
     }
 
@@ -119,7 +118,9 @@ class Excel_XML
      * Set the worksheet title
      * 
      * Checks the string for not allowed characters (:\/?*),
-     * cuts it to maximum 31 characters and set the title.
+     * cuts it to maximum 31 characters and set the title. Damn
+     * why are not-allowed chars nowhere to be found? Windows
+     * help's no help...
      *
      * @access public
      * @param string $title Designed title
@@ -128,7 +129,7 @@ class Excel_XML
     {
 
         // strip out special chars first
-        $title = preg_replace ("/[\\\|:|\/|\?|\*]/", "", $title);
+        $title = preg_replace ("/[\\\|:|\/|\?|\*|\[|\]]/", "", $title);
 
         // now cut it to the allowed length
         $title = substr ($title, 0, 31);
@@ -157,10 +158,10 @@ class Excel_XML
         // print out document to the browser
         // need to use stripslashes for the damn ">"
         echo stripslashes ($this->header);
-        echo "\n    <Worksheet ss:Name=\"" . $this->worksheet_title . "\">\n        <Table>\n";
-        echo "            <Column ss:Index=\"1\" ss:AutoFitWidth=\"0\" ss:Width=\"110\"/>\n";
+        echo "\n<Worksheet ss:Name=\"" . $this->worksheet_title . "\">\n<Table>\n";
+        echo "<Column ss:Index=\"1\" ss:AutoFitWidth=\"0\" ss:Width=\"110\"/>\n";
         echo implode ("\n", $this->lines);
-        echo "        </Table>\n    </Worksheet>\n";
+        echo "</Table>\n</Worksheet>\n";
         echo $this->footer;
 
     }
