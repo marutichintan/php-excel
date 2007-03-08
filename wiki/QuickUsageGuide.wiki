@@ -7,7 +7,7 @@
 
 = Prerequisites =
 
-*php-excel* expects a two-dimensional array and dumps it into columns and rows.
+*php-excel* expects a two-dimensional array and dumps it into columns and rows. Please first download the file [http://php-excel.googlecode.com/svn/branches/ from the branches directory].
 
 = Inclusion =
 
@@ -32,5 +32,4 @@ $xls->generateXML ( "testfile" );
 }}}
 
 The document (with filename "testfile") will be delivered to your browser for downloading. All values of the array will be defined as "string" - I may at support for more types later.
-
 
