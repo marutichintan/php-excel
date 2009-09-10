@@ -91,7 +91,7 @@ class Excel_XML
          * Worksheet title
          * @var string
          */
-        private $sWorksheetTitle = "Table1";
+        private $sWorksheetTitle;
 
         /**
          * Constructor
@@ -108,6 +108,7 @@ class Excel_XML
          * 
          * @param string $sEncoding Encoding to be used (defaults to UTF-8)
          * @param boolean $bConvertTypes Convert variables to field specification
+         * @param string $sWorksheetTitle Title for the worksheet
          */
         public function __construct($sEncoding = 'UTF-8', $bConvertTypes = false, $sWorksheetTitle = 'Table1')
         {
@@ -120,10 +121,25 @@ class Excel_XML
          * Set encoding
          * @param string Encoding type to set
          */
-        private function setEncoding($sEncoding)
+        public function setEncoding($sEncoding)
         {
         	$this->sEncoding = $sEncoding;
-        } 
+        }
+
+        /**
+         * Set worksheet title
+         * 
+         * Strips out not allowed characters and trims the
+         * title to a maximum length of 31.
+         * 
+         * @param string $title Title for worksheet
+         */
+        public function setWorksheetTitle ($title)
+        {
+                $title = preg_replace ("/[\\\|:|\/|\?|\*|\[|\]]/", "", $title);
+                $title = substr ($title, 0, 31);
+                $this->sWorksheetTitle = $title;
+        }
 
         /**
          * Add row
@@ -167,28 +183,6 @@ class Excel_XML
     }
 
     /**
-     * Set the worksheet title
-     * 
-     * Checks the string for not allowed characters (:\/?*),
-     * cuts it to maximum 31 characters and set the title.
-     *
-     * @param string $title Designed title
-     */
-    public function setWorksheetTitle ($title)
-    {
-
-        // strip out special chars first
-        $title = preg_replace ("/[\\\|:|\/|\?|\*|\[|\]]/", "", $title);
-
-        // now cut it to the allowed length
-        $title = substr ($title, 0, 31);
-
-        // set title
-        $this->sWorksheetTitle = $title;
-
-    }
-
-    /**
      * Generate the excel file
      * 
      * Finally generates the excel file and uses the header() function
@@ -200,6 +194,9 @@ class Excel_XML
     function generateXML ($filename)
     {
 
+    	// correct/validate filename
+    	$filename = preg_replace('/[^aA-zZ0-9\_\-]/', '', $filename);
+    	
         // deliver header (as recommended in php manual)
         header("Content-Type: application/vnd.ms-excel; charset=" . $this->sEncoding);
         header("Content-Disposition: inline; filename=\"" . $filename . ".xls\"");
