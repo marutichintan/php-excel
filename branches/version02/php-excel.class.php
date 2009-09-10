@@ -110,7 +110,7 @@ class Excel_XML
         // foreach key -> write value into cells
         foreach ($array as $k => $v):
 
-            $cells .= "<Cell><Data ss:Type=\"String\">" . utf8_encode($v) . "</Data></Cell>\n"; 
+            $cells .= "<Cell><Data ss:Type=\"String\">" . $v . "</Data></Cell>\n"; 
 
         endforeach;
 
