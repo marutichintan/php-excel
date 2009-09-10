@@ -9,3 +9,4 @@
   * Add option to remotely set the used charset
   * Fixing issues from the bugtracker (#3, #4, #7, #8, #9)
   * Explore and summarize more possible features
+  * Add a method to write the output to a file instead on delivering it out
