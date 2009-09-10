@@ -150,7 +150,7 @@ class Excel_XML
          * Generate the excel file
          * @param string $filename Name of excel file to generate (...xls)
          */
-        public function generateXML ($filename)
+        public function generateXML ($filename = 'excel-export')
         {
                 // correct/validate filename
                 $filename = preg_replace('/[^aA-zZ0-9\_\-]/', '', $filename);
