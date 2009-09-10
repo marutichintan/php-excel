@@ -1,7 +1,9 @@
 #summary This is the changelog of the simple php-excel library
 #labels Featured
 
-= Version 1.1 =
+= Version 1 =
+
+== Version 1.1 ==
 
 Version 1.1 is a more advanced library which fixes several issues from the [http://code.google.com/p/php-excel/issues/list bugtracker]. Thanks to a lot of people giving feedback and describing their problems I was able to bring out this version based on the fixes they posted in comments and issues.
 
@@ -12,7 +14,9 @@ Version 1.1 is a more advanced library which fixes several issues from the [http
   * Several unneeded code passages (mainly xml) have been removed
   * It's not as easy to produce errors as in version 1 ;)
 
-= Version 1 =
+*Version 1.1 is fully compatible to all code based on version 1.0.*
+
+== Version 1.0 ==
 
 Version 1 was the first simple implementation of a class converting a simple PHP-Array into an excel-readable XML file. I took advantage of the fact that - when having the mimetype .xls - Excel would read the file without prompts.
 
