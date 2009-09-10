@@ -10,6 +10,10 @@ $data = array(
         array('Test', 'Peter')
         );
 
+// creating a more complex array
+for ($i=0;$i<100000;$i++)
+        $data[] = array($i, 'Oliver (' . $i . ')');
+
 // generate file (constructor parameters are optional)
 $xls = new Excel_XML('UTF-8', false, 'My Test Sheet');
 $xls->addArray($data);

@@ -163,8 +163,13 @@ class Excel_XML
                 // need to use stripslashes for the damn ">"
                 echo stripslashes (sprintf($this->header, $this->sEncoding));
                 echo "\n<Worksheet ss:Name=\"" . $this->sWorksheetTitle . "\">\n<Table>\n";
-                foreach ($this->lines as $line)
-                        echo $line;
+                
+                // strip array by maximum linecount
+                $linecount = count($this->lines);
+                if ($linecount > 65536) $linecount = 65536;
+                
+                for ($i = 0; $i < $linecount; $i++)
+                        echo $this->lines[$i];
 
                 echo "</Table>\n</Worksheet>\n";
                 echo $this->footer;
