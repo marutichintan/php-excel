@@ -44,19 +44,20 @@
  * @package Utilities
  * @subpackage Excel
  * @author Oliver Schwarz <oliver.schwarz@vaicon.de>
- * @version 1.0
- *
-  * @todo Add error handling (array corruption etc.)
- * @todo Write a wrapper method to do everything on-the-fly
+ * @version 1.1
+ * 
+ * @todo User should be able to set the encoding of the excel file remotely
+ * @todo Issue #3: implode() is not working well with large arrays
+ * @todo Issue #4: Internet Explorer 7 does not work well with the given header
+ * @todo Add configuration to activate/deactivate the string conversion
+ * @todo Add option to give out first line as header (bold text)
+ * @todo Add option to give out last line as footer (bold text)
  */
 class Excel_XML
 {
 
     /**
      * Header of excel document (prepended to the rows)
-     * 
-     * Copied from the excel xml-specs.
-     * 
      * @access private
      * @var string
      */
@@ -68,13 +69,11 @@ class Excel_XML
 
     /**
      * Footer of excel document (appended to the rows)
-     * 
-     * Copied from the excel xml-specs.
-     * 
      * @access private
      * @var string
      */
     private $footer = "</Workbook>";
+
 
     /**
      * Document lines (rows in an array)
@@ -84,16 +83,32 @@ class Excel_XML
      */
     private $lines = array ();
 
-    /**
-     * Worksheet title
-     *
-     * Contains the title of a single worksheet
-     *
-     * @access private 
-     * @var string
-     */
-    private $worksheet_title = "Table1";
+        /**
+         * Used encoding
+         * @var string
+         */
+        private $sEncoding;
+        
+        /**
+         * Worksheet title
+         * @var string
+         */
+        private $sWorksheetTitle = "Table1";
 
+        /**
+         * Constructor
+         * 
+         * The constructor allows the setting of some additional
+         * parameters so that the library may be configured to
+         * one's needs.
+         * 
+         * @param string $sEncoding Encoding to be used (defaults to UTF-8)
+         */
+        public function __construct($sEncoding = 'UTF-8')
+        {
+        	$this->sEncoding = $sEncoding;
+        }
+    
     /**
      * Add a single row to the $document string
      * 
@@ -131,12 +146,10 @@ class Excel_XML
      */
     public function addArray ($array)
     {
-
         // run through the array and add them into rows
         foreach ($array as $k => $v):
             $this->addRow ($v);
         endforeach;
-
     }
 
     /**
@@ -160,7 +173,7 @@ class Excel_XML
         $title = substr ($title, 0, 31);
 
         // set title
-        $this->worksheet_title = $title;
+        $this->sWorksheetTitle = $title;
 
     }
 
@@ -183,9 +196,11 @@ class Excel_XML
         // print out document to the browser
         // need to use stripslashes for the damn ">"
         echo stripslashes ($this->header);
-        echo "\n<Worksheet ss:Name=\"" . $this->worksheet_title . "\">\n<Table>\n";
-        echo "<Column ss:Index=\"1\" ss:AutoFitWidth=\"0\" ss:Width=\"110\"/>\n";
-        echo implode ("\n", $this->lines);
+        echo "\n<Worksheet ss:Name=\"" . $this->sWorksheetTitle . "\">\n<Table>\n";
+        echo "<Column ss:Index=\"1\" ss:AutoFitWidth=\"0\" />\n";
+        foreach ($this->lines as $line):
+                echo $line . "\n";
+        endforeach;
         echo "</Table>\n</Worksheet>\n";
         echo $this->footer;
 
