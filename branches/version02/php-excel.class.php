@@ -164,54 +164,40 @@ class Excel_XML
                 $this->lines[] = "<Row>\n" . $cells . "</Row>\n";
         }
 
-    /**
-     * Add an array to the document
-     * 
-     * This should be the only method needed to generate an excel
-     * document.
-     * 
-     * @access public
-     * @param array 2-dimensional array
-     * @todo Can be transfered to __construct() later on
-     */
-    public function addArray ($array)
-    {
-        // run through the array and add them into rows
-        foreach ($array as $k => $v):
-            $this->addRow ($v);
-        endforeach;
-    }
+        /**
+         * Add an array to the document
+         * @param array 2-dimensional array
+         */
+        public function addArray ($array)
+        {
+                foreach ($array as $k => $v)
+                        $this->addRow ($v);
+        }
 
-    /**
-     * Generate the excel file
-     * 
-     * Finally generates the excel file and uses the header() function
-     * to deliver it to the browser.
-     * 
-     * @access public
-     * @param string $filename Name of excel file to generate (...xls)
-     */
-    function generateXML ($filename)
-    {
 
-    	// correct/validate filename
-    	$filename = preg_replace('/[^aA-zZ0-9\_\-]/', '', $filename);
+        /**
+         * Generate the excel file
+         * @param string $filename Name of excel file to generate (...xls)
+         */
+        function generateXML ($filename)
+        {
+                // correct/validate filename
+                $filename = preg_replace('/[^aA-zZ0-9\_\-]/', '', $filename);
     	
-        // deliver header (as recommended in php manual)
-        header("Content-Type: application/vnd.ms-excel; charset=" . $this->sEncoding);
-        header("Content-Disposition: inline; filename=\"" . $filename . ".xls\"");
+                // deliver header (as recommended in php manual)
+                header("Content-Type: application/vnd.ms-excel; charset=" . $this->sEncoding);
+                header("Content-Disposition: inline; filename=\"" . $filename . ".xls\"");
 
-        // print out document to the browser
-        // need to use stripslashes for the damn ">"
-        echo stripslashes (sprintf($this->header, $this->sEncoding));
-        echo "\n<Worksheet ss:Name=\"" . $this->sWorksheetTitle . "\">\n<Table>\n";
-        foreach ($this->lines as $line):
-                echo $line;
-        endforeach;
-        echo "</Table>\n</Worksheet>\n";
-        echo $this->footer;
+                // print out document to the browser
+                // need to use stripslashes for the damn ">"
+                echo stripslashes (sprintf($this->header, $this->sEncoding));
+                echo "\n<Worksheet ss:Name=\"" . $this->sWorksheetTitle . "\">\n<Table>\n";
+                foreach ($this->lines as $line)
+                        echo $line;
 
-    }
+                echo "</Table>\n</Worksheet>\n";
+                echo $this->footer;
+        }
 
 }
 
