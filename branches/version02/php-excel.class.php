@@ -46,10 +46,7 @@
  * @author Oliver Schwarz <oliver.schwarz@vaicon.de>
  * @version 1.1
  * 
- * @todo User should be able to set the encoding of the excel file remotely
- * @todo Issue #3: implode() is not working well with large arrays
  * @todo Issue #4: Internet Explorer 7 does not work well with the given header
- * @todo Add configuration to activate/deactivate the string conversion
  * @todo Add option to give out first line as header (bold text)
  * @todo Add option to give out last line as footer (bold text)
  * @todo Add option to write to file
@@ -179,7 +176,7 @@ class Excel_XML
          * Generate the excel file
          * @param string $filename Name of excel file to generate (...xls)
          */
-        function generateXML ($filename)
+        public function generateXML ($filename)
         {
                 // correct/validate filename
                 $filename = preg_replace('/[^aA-zZ0-9\_\-]/', '', $filename);
