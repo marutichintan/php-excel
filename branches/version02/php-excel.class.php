@@ -57,28 +57,23 @@
 class Excel_XML
 {
 
-    /**
-     * Header of excel document (prepended to the rows)
-     * @access private
-     * @var string
-     */
-    private $header = "<?xml version=\"1.0\" encoding=\"%s\"?\>\n<Workbook xmlns=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:x=\"urn:schemas-microsoft-com:office:excel\" xmlns:ss=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:html=\"http://www.w3.org/TR/REC-html40\">";
+	/**
+	 * Header (of document)
+	 * @var string
+	 */
+        private $header = "<?xml version=\"1.0\" encoding=\"%s\"?\>\n<Workbook xmlns=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:x=\"urn:schemas-microsoft-com:office:excel\" xmlns:ss=\"urn:schemas-microsoft-com:office:spreadsheet\" xmlns:html=\"http://www.w3.org/TR/REC-html40\">";
 
-    /**
-     * Footer of excel document (appended to the rows)
-     * @access private
-     * @var string
-     */
-    private $footer = "</Workbook>";
+        /**
+         * Footer (of document)
+         * @var string
+         */
+        private $footer = "</Workbook>";
 
-
-    /**
-     * Document lines (rows in an array)
-     * 
-     * @access private
-     * @var array
-     */
-    private $lines = array ();
+        /**
+         * Lines to output in the excel document
+         * @var array
+         */
+        private $lines = array();
 
         /**
          * Used encoding
@@ -175,11 +170,8 @@ class Excel_XML
      * Set the worksheet title
      * 
      * Checks the string for not allowed characters (:\/?*),
-     * cuts it to maximum 31 characters and set the title. Damn
-     * why are not-allowed chars nowhere to be found? Windows
-     * help's no help...
+     * cuts it to maximum 31 characters and set the title.
      *
-     * @access public
      * @param string $title Designed title
      */
     public function setWorksheetTitle ($title)
