@@ -1,6 +1,11 @@
 #summary Plans about what I am going to do with my project.
 
-= Todolist =
+= Roadmap ==
+
+== Version 2 ==
 
   * Add support for different variable types
-  * Add support for headlines (1st row)
+  * Add support for headlines (1st row) and footer (last row)
+  * Add option to remotely set the used charset
+  * Fixing issues from the bugtracker (#3, #4, #7, #8, #9)
+  * Explore and summarize more possible features
