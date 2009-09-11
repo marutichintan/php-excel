@@ -4,9 +4,10 @@
 
 == Version 2 ==
 
-  * Add support for different variable types
-  * Add support for headlines (1st row) and footer (last row)
-  * Add option to remotely set the used charset
-  * Fixing issues from the bugtracker (#3, #4, #7, #8, #9)
+  * ~~Add support for different variable types~~ (_Implemented in 1.1_)
+  * ~~Add support for headlines (1st row) and footer (last row)~~
+  * ~~Add option to remotely set the used charset~~ (_Implemented in 1.1_)
+  * ~~Fixing issues from the bugtracker (#3, #4, #7, #8, #9)~~ (_Implemented in 1.1_)
   * Explore and summarize more possible features
   * Add a method to write the output to a file instead on delivering it out
+  * Add a method to return the output
