@@ -8,7 +8,7 @@ This implies that I need to (and will) judge thoroughfully about every single ad
 
 == Roadmap ==
 
-=== Version 2 ===
+==== Version 1.2 ====
 
   * ~~Add support for different variable types~~ (_Implemented in 1.1_)
   * ~~Add support for headlines (1st row) and footer (last row)~~ (will not be implemented in core class)
@@ -19,3 +19,5 @@ This implies that I need to (and will) judge thoroughfully about every single ad
   * Add a method to return the output
   * Add multiple worksheets in a workbook
   * Add option to save the file in different file formats (xml/xls)
+
+*Version 1.2 will be downward compatible with older versions*
