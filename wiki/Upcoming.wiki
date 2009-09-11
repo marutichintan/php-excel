@@ -24,3 +24,5 @@ This implies that I need to (and will) judge thoroughfully about every single ad
 === Version 1.3 ===
 
   * Introduction of an extension class Excel_XML_Extended which will allow more features based on the core library
+  * *Version 1.3 will be downward compatible with older versions*
+  * Version 1.1 methods `addArray` and `generateXML` will throw errors of type Notice (anouncing depreciation)
