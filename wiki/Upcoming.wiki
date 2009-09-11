@@ -5,7 +5,7 @@
 == Version 2 ==
 
   * ~~Add support for different variable types~~ (_Implemented in 1.1_)
-  * ~~Add support for headlines (1st row) and footer (last row)~~
+  * ~~Add support for headlines (1st row) and footer (last row)~~ (will not be implemented in core class)
   * ~~Add option to remotely set the used charset~~ (_Implemented in 1.1_)
   * ~~Fixing issues from the bugtracker (#3, #4, #7, #8, #9)~~ (_Implemented in 1.1_)
   * Explore and summarize more possible features
