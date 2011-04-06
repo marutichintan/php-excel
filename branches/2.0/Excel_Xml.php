@@ -49,6 +49,36 @@ class Excel_Xml
     protected $sEncoding;
 
     /**
+     * Get sanitized workbook title
+     * 
+     * Sanitizes a workbook title (filename) to contain only the
+     * allowed characters using a whitelist regexp.
+     * 
+     * @param string $title Title to sanitize
+     * @return string Sanitized workbook title
+     */
+    private function getSanitizedWorkbookTitle($title)
+    {
+        return preg_replace('/[^aA-zZ0-9\_\-\.]', '', $title);
+    }
+
+    /**
+     * Get sanitized worksheet title
+     * 
+     * Sanitizes a worksheet title using a whitelist regexp.
+     * Excel only allows certain characters and only a certain
+     * length in workbook titles.
+     * 
+     * @param string $title Title to sanitize
+     * @return string Sanitized worksheet title
+     */
+    private function getSanitizedWorksheetTitle($title)
+    {
+        $sWorksheetTitle = preg_replace('/[\\\|:|\/|\?|\*|\[|\]]', '', $title);
+        return substr($sWorksheetTitle, 0, 31);
+    }
+    
+    /**
      * Constructor
      * 
      * Sets default property values and allows to configure
@@ -77,5 +107,5 @@ class Excel_Xml
         unset($this->aWorksheetData);
         unset($this->sOutput);
     }
-    
+
 }
