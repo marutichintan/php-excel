@@ -3,10 +3,16 @@
 /**
  * Excel Xml Generator
  * 
- * @package Utilities
- * @author  Oliver Schwarz <oliver.schwarz@gmail.com>
- * @license http://www.opensource.org/licenses/mit-license.php
- * @version 2.0
+ * @category Utilities
+ * @package  Utilities
+ * @author   Oliver Schwarz <oliver.schwarz@gmail.com>
+ * @license  MIT License http://www.opensource.org/licenses/mit-license.php
+ * @version  2.0
+ * @link     http://code.google.com/p/php-excel/
+ * 
+ * @todo Add compatibility methods for version 1.0
+ * @todo Add method to write to file
+ * @todo Add method to return output
  */
 
 /**
@@ -15,10 +21,12 @@
  * A simple class to dump an array into a file or output stream
  * readable by Excel or other calc/spreadsheet software.
  * 
- * @package Utilities
- * @author  Oliver Schwarz <oliver.schwarz@gmail.com>
- * @license http://www.opensource.org/licenses/mit-license.php
- * @version 2.0
+ * @category Utilities
+ * @package  Utilities
+ * @author   Oliver Schwarz <oliver.schwarz@gmail.com>
+ * @license  MIT license http://www.opensource.org/licenses/mit-license.php
+ * @version  2.0
+ * @link     http://code.google.com/p/php-excel/
  */
 class Excel_Xml
 {
@@ -64,9 +72,9 @@ class Excel_Xml
      * 
      * @return string Sanitized workbook title
      */
-    private function getSanitizedWorkbookTitle($title)
+    private function _getSanitizedWorkbookTitle($title)
     {
-        return preg_replace('/[^aA-zZ0-9\_\-\.]', '', $title);
+        return preg_replace('/[^aA-zZ0-9\_\-\.]/', '', $title);
     }
 
     /**
@@ -80,9 +88,9 @@ class Excel_Xml
      * 
      * @return string Sanitized worksheet title
      */
-    private function getSanitizedWorksheetTitle($title)
+    private function _getSanitizedWorksheetTitle($title)
     {
-        $sWorksheetTitle = preg_replace('/[\\\|:|\/|\?|\*|\[|\]]', '', $title);
+        $sWorksheetTitle = preg_replace('/[\\\|:|\/|\?|\*|\[|\]]/', '', $title);
         return substr($sWorksheetTitle, 0, 31);
     }
 
@@ -101,7 +109,7 @@ class Excel_Xml
     protected function generateWorkbook()
     {
         $this->sOutput = stripslashes(sprintf(self::HEADER, $this->sEncoding))."\n";
-        foreach ($this->aWorksheetData as $sSheet) {
+        foreach ($this->aWorksheetData as $aSheet) {
             $this->generateWorksheet($aSheet);
         }
 
@@ -185,6 +193,89 @@ class Excel_Xml
     {
         $this->sEncoding = $sEncoding;
         $this->sOutput = '';
+    }
+
+    /**
+     * Add a worksheet
+     * 
+     * Adds a new worksheet to the data container.
+     * 
+     * @param string $title Title of worksheet
+     * @param array  $data  Two-dimensional array of data
+     * 
+     * @return void
+     */
+    public function addWorksheet($title, $data)
+    {
+        $this->aWorksheetData[] = array(
+            'title' => $this->_getSanitizedWorksheetTitle($title),
+            'data' => $data
+            );
+    }
+
+    /**
+     * Send workbook to browser
+     * 
+     * Sends the workbook to the browser opening the default "Save as..."
+     * dialog by using PHP's header directive.
+     * 
+     * @param string $filename Filename to use in dialog
+     * 
+     * @return void
+     */
+    public function sendWorkbook($filename)
+    {
+        if (!preg_match('/\.(xml|xls)$/', $filename)) {
+            throw new InvalidArgumentException('Filename mimetype must be .xml or .xls');
+        }
+        $filename = $this->_getSanitizedWorkbookTitle($filename);
+        $this->generateWorkbook();
+        if (preg_match('/\.xls$/', $filename)) {
+            header("Content-Type: application/vnd.ms-excel; charset=" . $this->sEncoding);
+            header("Content-Disposition: inline; filename=\"" . $filename . "\"");
+        } else {
+            header("Content-Type: application/xml; charset=" . $this->sEncoding);
+            header("Content-Disposition: attachment; filename=\"" . $filename . "\"");
+        }
+        echo $this->sOutput;
+    }
+
+    /**
+     * Write workbook to file
+     *
+     * Writes the workbook into the file/path given as a parameters.
+     * The method checks whether the directory is writable and the
+     * file is not existing and writes the file.
+     *
+     * @param string $filename Filename to use for writing (must contain mimetype)
+     * 
+     * @return string Message
+     */
+    public function writeWorkbook($filename)
+    {
+        $this->generateWorkbook();
+        $filename = $this->_getSanitizedWorkbookTitle($filename);
+        if (!$handle = @fopen($filename, 'w+')) {
+            throw new Exception(sprintf("Not allowed to write to file %s", $filename));
+        }
+        if (@fwrite($handle, $this->sOutput) === false) {
+            throw new Exception(sprintf("Error writing to file %s", $filename));
+        }
+        @fclose($handle);
+        return sprintf("File %s written", $filename);
+    }
+
+    /**
+     * Get workbook
+     * 
+     * Returns the generated workbook.
+     * 
+     * @return string Generated workbook XML
+     */
+    public function getWorkbook()
+    {
+        $this->generateWorkbook();
+        return $this->sOutput;
     }
 
     /**
